@@ -5,7 +5,6 @@ import amongthem.player.Player;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.function.Predicate;
 
 public class CreatePlayers {
 
