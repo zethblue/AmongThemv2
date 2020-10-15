@@ -4,7 +4,6 @@ import amongthem.player.Memory;
 import amongthem.player.MemoryEnums;
 import amongthem.player.Player;
 import amongthem.rooms.RoomNames;
-import amongthem.tasks.Task;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -86,7 +85,7 @@ public class Game {
             Player dead = null;
             Random randomizer = new Random();
             RoomNames actualRoom = p.getPlayerLocation();
-            RoomNames roomWhereIHaveMyTask = Locator.whereShallIGo(p.getPlayerLocation(),p.getActiveTask().getTaskIsInRoom());
+            RoomNames roomWhereIHaveMyTask = p.getActiveTask().getTaskIsInRoom();
             boolean doingATask = p.isDoingATask();
             boolean reporting = false;
             boolean Impostor = p.isImpostor();
