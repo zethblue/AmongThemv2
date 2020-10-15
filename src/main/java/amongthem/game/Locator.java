@@ -13,6 +13,7 @@ public class Locator {
 
         if(playerLocation == RoomNames.CAFETERIA){
             switch (taskLocation){
+                case CAFETERIA: return RoomNames.CAFETERIA;
                 case ADMIN:
                 case COMMUNICATION:
                 case ELECTRICAL:
@@ -69,6 +70,7 @@ public class Locator {
         }
         if(playerLocation == RoomNames.WEAPONS){
             switch (taskLocation){
+                case WEAPONS: return RoomNames.WEAPONS;
                 case CAFETERIA:
                 case ADMIN:
                 case UPPER_ENGINE:
@@ -123,6 +125,7 @@ public class Locator {
         if(playerLocation == RoomNames.O2){return RoomNames.WEAPONS_O2_NAVIGATION_SHIELDS_PATH;}
         if(playerLocation == RoomNames.SHIELDS){
             switch (taskLocation){
+                case SHIELDS: return RoomNames.SHIELDS;
                 case NAVIGATION:
                 case O2:
                 case WEAPONS:
@@ -146,7 +149,9 @@ public class Locator {
 
             }
         }
-        if(playerLocation == RoomNames.COMMUNICATION) {return RoomNames.SHIELDS_COMMUNICATION_STORAGE_PATH;}
+        if(playerLocation == RoomNames.COMMUNICATION) {
+            if(taskLocation == RoomNames.COMMUNICATION){return RoomNames.COMMUNICATION;}
+            return RoomNames.SHIELDS_COMMUNICATION_STORAGE_PATH;}
         if(playerLocation == RoomNames.SHIELDS_COMMUNICATION_STORAGE_PATH){
             switch (taskLocation){
                 case COMMUNICATION: return RoomNames.COMMUNICATION;
@@ -162,6 +167,7 @@ public class Locator {
         }
         if(playerLocation == RoomNames.STORAGE){
             switch (taskLocation){
+                case STORAGE: return RoomNames.STORAGE;
                 case COMMUNICATION:
                 case SHIELDS:
                 case NAVIGATION:
@@ -191,6 +197,7 @@ public class Locator {
             }
         }
         if(playerLocation == RoomNames.ADMIN){
+            if(taskLocation == RoomNames.ADMIN){return RoomNames.ADMIN;}
             return RoomNames.CAFETERIA_ADMIN_STORAGE_PATH;
         }
         if(playerLocation == RoomNames.CAFETERIA_ADMIN_STORAGE_PATH){
@@ -236,9 +243,12 @@ public class Locator {
                     return RoomNames.UPPER_ENGINE;
             }
         }
-        if(playerLocation == RoomNames.MEDBAY){return RoomNames.CAFETERIA_MEDBAY_UPPER_ENGINE_PATH;}
+        if(playerLocation == RoomNames.MEDBAY){
+            if(taskLocation == RoomNames.MEDBAY){return RoomNames.MEDBAY;}
+            return RoomNames.CAFETERIA_MEDBAY_UPPER_ENGINE_PATH;}
         if(playerLocation == RoomNames.UPPER_ENGINE){
             switch (taskLocation){
+                case UPPER_ENGINE: return RoomNames.UPPER_ENGINE;
                 case REACTOR:
                 case SECURITY:
                 case LOWER_ENGINE:
@@ -263,8 +273,12 @@ public class Locator {
 
             }
         }
-        if(playerLocation == RoomNames.REACTOR){return RoomNames.UPPER_ENGINE_SECURITY_REACTOR_LOWER_ENGINE_PATH;}
-        if(playerLocation == RoomNames.SECURITY) {return RoomNames.UPPER_ENGINE_SECURITY_REACTOR_LOWER_ENGINE_PATH;}
+        if(playerLocation == RoomNames.REACTOR){
+            if(taskLocation == RoomNames.REACTOR){return RoomNames.REACTOR;}
+            return RoomNames.UPPER_ENGINE_SECURITY_REACTOR_LOWER_ENGINE_PATH;}
+        if(playerLocation == RoomNames.SECURITY) {
+            if(taskLocation == RoomNames.SECURITY){return RoomNames.SECURITY;}
+            return RoomNames.UPPER_ENGINE_SECURITY_REACTOR_LOWER_ENGINE_PATH;}
         if(playerLocation == RoomNames.UPPER_ENGINE_SECURITY_REACTOR_LOWER_ENGINE_PATH){
             switch (taskLocation){
                 case REACTOR: return RoomNames.REACTOR;
@@ -290,6 +304,7 @@ public class Locator {
         }
         if(playerLocation == RoomNames.LOWER_ENGINE){
             switch (taskLocation){
+                case LOWER_ENGINE: return RoomNames.LOWER_ENGINE;
                 case REACTOR:
                 case SECURITY:
                 case UPPER_ENGINE:
@@ -316,7 +331,9 @@ public class Locator {
 
             }
         }
-        if(playerLocation == RoomNames.ELECTRICAL){return RoomNames.LOWER_ENGINE_ELECTRICAL_STORAGE_PATH;}
+        if(playerLocation == RoomNames.ELECTRICAL){
+            if(taskLocation == RoomNames.ELECTRICAL){return RoomNames.ELECTRICAL;}
+            return RoomNames.LOWER_ENGINE_ELECTRICAL_STORAGE_PATH;}
         if(playerLocation == RoomNames.LOWER_ENGINE_ELECTRICAL_STORAGE_PATH){
             switch(taskLocation){
                 case ELECTRICAL: return RoomNames.ELECTRICAL;
