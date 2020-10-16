@@ -16,7 +16,7 @@ public class Game {
     private List<Player> gamePlayersAlive;
     private List<Player> gamePlayersDead;
     private HashMap<RoomNames,Player> deadBodies;
-    boolean foundDeadBodyREPORT = false;
+    private boolean foundDeadBodyREPORT = false;
     private Player reportingPlayer;
     private Player deadBodyfound;
 
@@ -75,6 +75,7 @@ public class Game {
             p.setMemories(new ArrayList<>());
         }
     }
+
     public List<Player> isAnotherPlayerInMyRoom(Player p){
         RoomNames myRoom = p.getPlayerLocation();
         return gamePlayersAlive.stream().filter(player -> player.getPlayerLocation().equals(myRoom)).collect(Collectors.toList());
@@ -94,10 +95,6 @@ public class Game {
             boolean myTaskIsInThisRoom = (roomWhereIHaveMyTask == actualRoom);
             List<Player> playerInMyRoomList = isAnotherPlayerInMyRoom(p);
             Memory tickMemory = new Memory();
-
-            //ticking
-            p.setMovingTimeTicks(p.getMovingTimeTicks()-1);
-
 
             //create Memory in actual Room
             tickMemory.setRoomname(actualRoom);
@@ -190,19 +187,24 @@ public class Game {
             }
 
             //is memory the same as before? then no save. if not then save
-            Memory checkMe = p.getMemories().get(p.getMemories().size()-1);
-            boolean sameMemoryAgain = Memory.compareMyMemories(checkMe,tickMemory);
-            if(!sameMemoryAgain){
-                p.addMemory(checkMe);
+            if(!p.getMemories().isEmpty()) {
+                Memory checkMe = p.getMemories().get(p.getMemories().size() - 1);
+                boolean sameMemoryAgain = Memory.compareMyMemories(checkMe, tickMemory);
+                if (!sameMemoryAgain) {
+                    p.addMemory(tickMemory);
+                }
             }
+            else{p.addMemory(tickMemory);}
 
         }
         //check Dead Players in Alive List
         for(Player p : gamePlayersAlive){
             if(p.isDead()){
                 gamePlayersDead.add(p);
-                gamePlayersAlive.remove(p);
             }
+        }
+        for(Player p : gamePlayersDead){
+            gamePlayersAlive.remove(p);
         }
     }
     public boolean checkifGameIsLost(){
@@ -229,9 +231,6 @@ public class Game {
         gamePlayersAlive.remove(p);
     }
 
-
-
-
     public List<Player> getGamePlayersAlive() {
         return gamePlayersAlive;
     }
@@ -239,10 +238,15 @@ public class Game {
         return gamePlayersDead;
     }
 
+    public boolean isFoundDeadBodyREPORT() {
+        return foundDeadBodyREPORT;
+    }
 
+    public Player getReportingPlayer() {
+        return reportingPlayer;
+    }
 
-
-
-
-
+    public Player getDeadBodyfound() {
+        return deadBodyfound;
+    }
 }
