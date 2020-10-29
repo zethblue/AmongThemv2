@@ -41,12 +41,10 @@ public class MemoryReadOutModule {
                     if(!(cleanMemory == null)){
                         cleanedMemories.add(cleanMemory);
                     }
-                    tempPlayerListSeen = new ArrayList<>();
-                    tempPlayerListTask = new ArrayList<>();
                     cleanMemory = new Memory();
                     cleanMemory.setRoomname(m.getRoomname());
-                    tempPlayerListSeen.addAll(m.getPlayersSeen());
-                    tempPlayerListTask.addAll(m.getPlayersDidTask());
+                    tempPlayerListSeen = new ArrayList<>(m.getPlayersSeen());
+                    tempPlayerListTask = new ArrayList<>(m.getPlayersDidTask());
                     cleanMemory.setPlayersSeen(tempPlayerListSeen);
                     cleanMemory.forMemoryReadOutsetPlayerDidTask(tempPlayerListTask);
                 }
@@ -74,6 +72,11 @@ public class MemoryReadOutModule {
                 }
 
         }
+
+        for(Memory m : cleanedMemories){
+            m.getPlayersSeen().remove(p);
+        }
+
         if(cleanedMemories.size() > 5){
             infoAnzahl = 5;
         }else infoAnzahl = cleanedMemories.size();
@@ -87,9 +90,9 @@ public class MemoryReadOutModule {
                 statement.append("Before that i was in ");
             }
             statement.append(PlayerLocationStringgetter(tempMemory.getRoomname()));
-            statement.append(". ");
+            statement.append(". <br>");
             if(tempMemory.getPlayersSeen().isEmpty()){
-                statement.append("I don't saw anybody there. ");
+                statement.append("I don't saw anybody there. <br>");
             }
             else{
                 statement.append("I think I saw ");
@@ -114,7 +117,7 @@ public class MemoryReadOutModule {
                             statement.append(tempMemory.getPlayersSeen().get(1).getName().toString());
                             statement.append(", ");
                             statement.append(tempMemory.getPlayersSeen().get(2).getName().toString());
-                            statement.append( "and I think one or two more");
+                            statement.append( " and I think one or two more. ");
                             break;
                     case 6:
                     case 7:
@@ -124,19 +127,20 @@ public class MemoryReadOutModule {
                             statement.append(tempMemory.getPlayersSeen().get(1).getName().toString());
                             statement.append(", ");
                             statement.append(tempMemory.getPlayersSeen().get(2).getName().toString());
-                            statement.append( "and I think there were many more");
+                            statement.append( "and I think there were many more.");
                             break;
-                    default:statement.append("I think i saw everyone there");
+                    default:statement.append("I think i saw everyone there.");
                             break;
 
                 }
+                statement.append("<br>");
                     }
             infoAnzahl--;
                 }
         return statement.toString();
         }
 
-    private String PlayerLocationStringgetter(RoomNames rr){
+    public static String PlayerLocationStringgetter(RoomNames rr){
         switch (rr){
             case LOWER_ENGINE: return "LOWER ENGINE";
             case REACTOR: return "REACTOR";

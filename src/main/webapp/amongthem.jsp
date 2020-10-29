@@ -58,30 +58,6 @@ while(!game.isFoundDeadBodyREPORT()){
     <button id="VOTE"> VOTE </button>
 </div>
 
-<div class="container">
-    <h2>Large Modal</h2>
-    <!-- Trigger the modal with a button -->
-    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Large Modal</button>
-
-    <!-- Modal -->
-    <div class="modal fade" id="myModal" role="dialog">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">×</button>
-                    <h4 class="modal-title">Modal Header</h4>
-                </div>
-                <div class="modal-body">
-                    <p>This is a large modal.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <div>
     <%
         StringBuilder betaOut = new StringBuilder();
@@ -89,14 +65,16 @@ while(!game.isFoundDeadBodyREPORT()){
         for(Player p : game.getGamePlayersAlive())
         {
             MemoryReadOutModule x = new MemoryReadOutModule(p);
-            out.println(x.MemoryExtractor());
+            out.println("<h2>" +p.getName() + "</h2>");
             out.println("<br>");
+            if(game.getReportingPlayer() == p){
+                out.println("I found the Dead Body of " + game.getDeadBodyfound().getName().toString() +
+                        " in " + MemoryReadOutModule.PlayerLocationStringgetter(p.getPlayerLocation()) + "<br>");
+            }
+            out.println(x.MemoryExtractor());
+            out.println("<br><br><br>");
         }
     %>
 </div>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-
 </body>
 </html>
