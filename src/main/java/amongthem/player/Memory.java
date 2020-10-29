@@ -41,7 +41,7 @@ public class Memory {
         this.moveOrDidTask = moveOrDidTask;
     }
 
-    //this method is not working correctly - List-equaling doesnt work
+    //this method may not work correctly - List-equaling doesnt work ??
     public static boolean compareMyMemories(Memory m1, Memory m2){
         boolean sameRoom = false;
         boolean samePlayersseen = false;

@@ -1,0 +1,16 @@
+body {
+    background-color: darkslategray;
+    color: aliceblue;
+}
+
+h1 {
+    color: aliceblue;
+    font-size: 60px ;
+}
+
+.flippic {
+    -moz-transform: scale(-1, 1);
+    -o-transform: scale(-1, 11);
+    -webkit-transform: scale(-1, 1);
+    transform: scale(-1, 1);
+}

@@ -96,6 +96,9 @@ public class Game {
             List<Player> playerInMyRoomList = isAnotherPlayerInMyRoom(p);
             Memory tickMemory = new Memory();
 
+            //check if killed this round
+            if(!p.isDead()){
+
             //create Memory in actual Room
             tickMemory.setRoomname(actualRoom);
             tickMemory.setPlayersSeen(playerInMyRoomList);
@@ -174,6 +177,7 @@ public class Game {
                         playerInMyRoomList.get(1).setDead(true);
                         deadBodies.put(actualRoom,playerInMyRoomList.get(1));
                         p.setKillTimer(40);
+                        System.out.println("XXXXX" + p.getName() + " KILLED" + playerInMyRoomList.get(1).getName()+ "XXXXX"); //for bug-finding
                     }
                 }
             }
@@ -183,6 +187,7 @@ public class Game {
                 reportingPlayer = p;
                 deadBodyfound = dead;
                 foundDeadBodyREPORT = true;
+                System.out.println("XXXXX" + reportingPlayer.getName() + "REPORTED DEAD BODY FROM" + deadBodyfound.getName()); //for bug-finding
 
             }
 
@@ -195,6 +200,7 @@ public class Game {
                 }
             }
             else{p.addMemory(tickMemory);}
+            }
 
         }
         //check Dead Players in Alive List
@@ -248,5 +254,13 @@ public class Game {
 
     public Player getDeadBodyfound() {
         return deadBodyfound;
+    }
+
+    public String getPlayerNameforWebsite(int i){
+        if(gamePlayersAlive.size() >= i){
+            return gamePlayersAlive.get(i-1).getName().toString();
+        }
+        else return "DEAD";
+
     }
 }

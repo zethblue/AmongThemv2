@@ -1,3 +1,5 @@
+/*
+
 package start;
 
 import amongthem.game.Game;
@@ -56,3 +58,5 @@ public class Start {
 
     }
 }
+
+*/

@@ -172,7 +172,7 @@ public class Locator {
                 case SHIELDS:
                 case NAVIGATION:
                 case O2:
-                    return RoomNames.WEAPONS_O2_NAVIGATION_SHIELDS_PATH;
+                    return RoomNames.SHIELDS_COMMUNICATION_STORAGE_PATH;
 
                 case LOWER_ENGINE:
                 case ELECTRICAL:
