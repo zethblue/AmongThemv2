@@ -76,8 +76,10 @@ while(!game.isFoundDeadBodyREPORT()){
         }
         String textOut = betaOut.toString();
     %>
-    <%
-    System.out.println(textOut);%>
+
+    <div>BETA - INFOS from each Players:
+        <br> <%= textOut %></div>
+
 </div>
 
 </body>
