@@ -109,7 +109,7 @@ public class Game {
             for(Player others : playerInMyRoomList){
                 if(others != p){
                     if(others.isDoingATask()){
-                        tickMemory.setPlayersDidTask(others);
+                        tickMemory.setPlayersDidTaskAddOnePlayer(others);
                     }
                 }
             }

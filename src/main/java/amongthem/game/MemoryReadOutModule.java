@@ -4,59 +4,138 @@ import amongthem.player.Memory;
 import amongthem.player.Player;
 import amongthem.rooms.RoomNames;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.lang.reflect.Array;
+import java.util.*;
 
 public class MemoryReadOutModule {
-    Random randomizer;
     Player p;
     List<Memory> memoryList;
-    StringBuilder myStatement1; //actual location
-    StringBuilder myStatement2; //what happened
 
 
     public MemoryReadOutModule(Player player) {
         this.p = player;
-        myStatement1 = new StringBuilder();
-        myStatement2 = new StringBuilder();
-        if(!p.isDead()) {
-            memoryList = new ArrayList<>();
-            memoryList.addAll(player.getMemories());
-            randomizer = new Random();
-
-            myStatement1.append(actualLocationPhraseStringgetter());
-            myStatement1.append(PlayerLocationStringgetter(p.getPlayerLocation()));
-            myStatement2MemoryLoader();
-        }
-        else{
-            myStatement1.append("THIS PLAYER IS ");
-            myStatement2.append("DEAD");
-        }
-
-
+        this.memoryList = p.getMemories();
     }
 
-    private String actualLocationPhraseStringgetter() {
+    public String MemoryExtractor(){
+        List<Memory> cleanedMemories = new ArrayList<>();
+        StringBuilder statement = new StringBuilder();
+        Memory cleanMemory = null;
+        List<Player> tempPlayerListSeen;
+        List<Player> tempPlayerListTask;
+        boolean bRoomName;
+        boolean bPlayersSeen;
+        boolean bPlayerDidTask;
+        int infoAnzahl;
+        for(Memory m : memoryList){
 
-        int i = randomizer.nextInt(4);
+            bRoomName = false; bPlayerDidTask = false; bPlayersSeen = false;
+            if(!(cleanMemory == null)) {
+                if (cleanMemory.getRoomname() == m.getRoomname()) bRoomName = true;
+                if (cleanMemory.getPlayersSeen().equals(m.getPlayersSeen())) bPlayersSeen = true;
+                if (cleanMemory.getPlayersDidTask().equals(m.getPlayersDidTask())) bPlayerDidTask = true;
+            }
 
-        switch (i) {
-            case 0:
-                return "Last i was in ";
-            case 1:
-                return "I was just in ";
-            case 2:
-                return "I was in ";
-            case 3:
-                return "My last location was ";
-            case 4:
-                return "My location: ";
-            default:
-                return "!!!Default Warning - this text should not appear !!!";
+                if(!bRoomName){
+
+                    if(!(cleanMemory == null)){
+                        cleanedMemories.add(cleanMemory);
+                    }
+                    tempPlayerListSeen = new ArrayList<>();
+                    tempPlayerListTask = new ArrayList<>();
+                    cleanMemory = new Memory();
+                    cleanMemory.setRoomname(m.getRoomname());
+                    tempPlayerListSeen.addAll(m.getPlayersSeen());
+                    tempPlayerListTask.addAll(m.getPlayersDidTask());
+                    cleanMemory.setPlayersSeen(tempPlayerListSeen);
+                    cleanMemory.forMemoryReadOutsetPlayerDidTask(tempPlayerListTask);
+                }
+
+                if(!bPlayersSeen){
+                    for(Player p : m.getPlayersSeen()){
+                        if(!(cleanMemory.getPlayersSeen().contains(p))){
+                            cleanMemory.getPlayersSeen().add(p);
+                        }
+                    }
+                }
+
+                if(!bPlayerDidTask){
+                    for(Player p : m.getPlayersDidTask()){
+                        if(!(cleanMemory.getPlayersDidTask().contains(p))){
+                            cleanMemory.getPlayersDidTask().add(p);
+                        }
+                    }
+
+                }
+
+                if(m == memoryList.get(memoryList.size()-1)){
+                    if(!(cleanedMemories.get(cleanedMemories.size()-1).equals(cleanMemory))){cleanedMemories.add(cleanMemory);}
+
+                }
 
         }
-    }
+        if(cleanedMemories.size() > 5){
+            infoAnzahl = 5;
+        }else infoAnzahl = cleanedMemories.size();
+        for(int minusMaxSize = 1; infoAnzahl > 0;minusMaxSize++){
+
+            Memory tempMemory = cleanedMemories.get(cleanedMemories.size()-minusMaxSize);
+            if(minusMaxSize == 1){
+                statement.append("The last Room i was in was ");
+            }
+            else{
+                statement.append("Before that i was in ");
+            }
+            statement.append(PlayerLocationStringgetter(tempMemory.getRoomname()));
+            statement.append(". ");
+            if(tempMemory.getPlayersSeen().isEmpty()){
+                statement.append("I don't saw anybody there. ");
+            }
+            else{
+                statement.append("I think I saw ");
+                switch (tempMemory.getPlayersSeen().size()){
+                    case 1: statement.append(tempMemory.getPlayersSeen().get(0).getName().toString());
+                            statement.append(". ");
+                            break;
+                    case 2: statement.append(tempMemory.getPlayersSeen().get(0).getName().toString());
+                            statement.append(" and ");
+                            statement.append(tempMemory.getPlayersSeen().get(1).getName().toString());
+                            break;
+                    case 3: statement.append(tempMemory.getPlayersSeen().get(0).getName().toString());
+                            statement.append(", ");
+                            statement.append(tempMemory.getPlayersSeen().get(1).getName().toString());
+                            statement.append(" and ");
+                            statement.append(tempMemory.getPlayersSeen().get(2).getName().toString());
+                            break;
+                    case 4:
+                    case 5:
+                            statement.append(tempMemory.getPlayersSeen().get(0).getName().toString());
+                            statement.append(", ");
+                            statement.append(tempMemory.getPlayersSeen().get(1).getName().toString());
+                            statement.append(", ");
+                            statement.append(tempMemory.getPlayersSeen().get(2).getName().toString());
+                            statement.append( "and I think one or two more");
+                            break;
+                    case 6:
+                    case 7:
+                    case 8:
+                            statement.append(tempMemory.getPlayersSeen().get(0).getName().toString());
+                            statement.append(", ");
+                            statement.append(tempMemory.getPlayersSeen().get(1).getName().toString());
+                            statement.append(", ");
+                            statement.append(tempMemory.getPlayersSeen().get(2).getName().toString());
+                            statement.append( "and I think there were many more");
+                            break;
+                    default:statement.append("I think i saw everyone there");
+                            break;
+
+                }
+                    }
+            infoAnzahl--;
+                }
+        return statement.toString();
+        }
+
     private String PlayerLocationStringgetter(RoomNames rr){
         switch (rr){
             case LOWER_ENGINE: return "LOWER ENGINE";
@@ -85,20 +164,6 @@ public class MemoryReadOutModule {
 
 
     }
-    private void myStatement2MemoryLoader(){
-        for(Memory m : memoryList){
-            StringBuilder playerISee = new StringBuilder();
-            for(Player p : m.getPlayersSeen()){
-                playerISee.append(p.getName().toString()).append(",");
-            }
-            myStatement2.append("Room:").append(m.getRoomname()).append("PlayersSeenThere: ").append(playerISee).append("$$$");
-        }
-    }
-    public String myStatement1Getter(){
-        return myStatement1.toString();
-    }
-    public String myStatement2Getter(){
-        return myStatement2.toString();
-    }
+
 
 }

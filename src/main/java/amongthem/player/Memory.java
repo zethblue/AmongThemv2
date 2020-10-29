@@ -4,6 +4,7 @@ import amongthem.rooms.RoomNames;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Memory {
 
@@ -14,6 +15,7 @@ public class Memory {
 
     public Memory() {
         playersDidTask = new ArrayList<>();
+        playersSeen = new ArrayList<>();
     }
 
     public RoomNames getRoomname() {
@@ -31,8 +33,11 @@ public class Memory {
     public List<Player> getPlayersDidTask() {
         return playersDidTask;
     }
-    public void setPlayersDidTask(Player pDidTask) {
+    public void setPlayersDidTaskAddOnePlayer(Player pDidTask) {
         playersDidTask.add(pDidTask);
+    }
+    public void forMemoryReadOutsetPlayerDidTask(List<Player> p){
+        playersDidTask = p;
     }
     public MemoryEnums getMoveOrDidTask() {
         return moveOrDidTask;
@@ -71,5 +76,31 @@ public class Memory {
                 "\n and have seen " + playerIhaveSeen.toString() +
                 "\nthis players I did see doing  tasks: " + playerswhoDidTasks.toString() +
                 "\nand I did " + moveOrDidTask;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Memory memory = (Memory) o;
+        return roomname == memory.roomname &&
+                playersSeen.equals(memory.playersSeen) &&
+                playersDidTask.equals(memory.playersDidTask) &&
+                moveOrDidTask == memory.moveOrDidTask;
+    }
+
+    public boolean arePlayersSeenTheSame(Memory m){
+        return m.getPlayersSeen().equals(playersSeen);
+    }
+    public boolean arePlayersDidTasksTheSame(Memory m) {
+        return m.getPlayersDidTask().equals(playersDidTask);
+    }
+    public boolean isMoveOrDidTaskTheSame(Memory m) {
+        return m.getMoveOrDidTask().equals(moveOrDidTask);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(roomname, playersSeen, playersDidTask, moveOrDidTask);
     }
 }
